@@ -1,4 +1,3 @@
-
 package uam.n1;
 
 public abstract class Golpe {
