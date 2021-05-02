@@ -13,4 +13,24 @@ public abstract class Golpe {
         this.poder2 = poder2;
         this.elementoGolpe = elementoGolpe;
     }
+
+    public String getNomeGolpe1() {
+        return nomeGolpe1;
+    }
+
+    public String getNomeGolpe2() {
+        return nomeGolpe2;
+    }
+
+    public int getPoder1() {
+        return poder1;
+    }
+
+    public int getPoder2() {
+        return poder2;
+    }
+
+    public String getElementoGolpe() {
+        return elementoGolpe;
+    }
 }

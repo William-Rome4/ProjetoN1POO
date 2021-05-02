@@ -19,4 +19,31 @@ public class Elemonstro extends Golpe{
         this.velocidade = velocidade;
     }
 
+    public String getNomeElemonstro() {
+        return nomeElemonstro;
+    }
+
+    public String getElementoElemonstro() {
+        return elementoElemonstro;
+    }
+
+    public int getVida() {
+        return vida;
+    }
+
+    public void setVida(int vida) {
+        this.vida = vida;
+    }
+
+    public int getForca() {
+        return forca;
+    }
+
+    public int getDefesa() {
+        return defesa;
+    }
+
+    public int getVelocidade() {
+        return velocidade;
+    }
 }
