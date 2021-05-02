@@ -98,6 +98,41 @@ public class Main {
                             break;
                 }
             }
+            if(jogador1[elemonstroAtual1].getVelocidade() > jogador2[elemonstroAtual2].getVelocidade()){
+                if(escolhaAtaque[0]==1){
+                    jogador2[elemonstroAtual2].setVida(jogador2[elemonstroAtual2].getVida() 
+                            - (int) ((((22 * jogador1[elemonstroAtual1].getPoder1()
+                            * jogador1[elemonstroAtual1].getForca() / jogador2[elemonstroAtual2].getDefesa())
+                            /50)+2)*reacaoElemental(jogador1[elemonstroAtual1],jogador2[elemonstroAtual2])));
+                }else if(escolhaAtaque[0]==2){
+                    jogador2[elemonstroAtual2].setVida(jogador2[elemonstroAtual2].getVida() 
+                            - (int) ((((22 * jogador1[elemonstroAtual1].getPoder2()
+                            * jogador1[elemonstroAtual1].getForca() / jogador2[elemonstroAtual2].getDefesa())
+                            /50)+2)*reacaoElemental(jogador1[elemonstroAtual1],jogador2[elemonstroAtual2])));
+                }
+                if(jogador2[elemonstroAtual2].getVida() <= 0)
+                    nocaute2++;
+            }else if(jogador1[elemonstroAtual1].getVelocidade() < jogador2[elemonstroAtual2].getVelocidade()){
+                if(escolhaAtaque[1]==1){
+                    jogador1[elemonstroAtual1].setVida(jogador1[elemonstroAtual1].getVida() - 
+                            (int) ((((22 * jogador2[elemonstroAtual1].getPoder1()
+                            * jogador2[elemonstroAtual2].getForca() / jogador1[elemonstroAtual1].getDefesa())
+                            /50)+2)*reacaoElemental(jogador2[elemonstroAtual2],jogador1[elemonstroAtual1])));
+                }else if(escolhaAtaque[1]==2){
+                    jogador1[elemonstroAtual1].setVida(jogador1[elemonstroAtual1].getVida() - 
+                            (int) ((((22 * jogador2[elemonstroAtual1].getPoder2()
+                            * jogador2[elemonstroAtual2].getForca() / jogador1[elemonstroAtual1].getDefesa())
+                            /50)+2)*reacaoElemental(jogador2[elemonstroAtual2],jogador1[elemonstroAtual1])));
+                }
+                if(jogador1[elemonstroAtual1].getVida() <= 0)
+                    nocaute1++;
+            }
+        }
+        System.out.println("---------------------");
+        if(nocaute1 == 3){
+            System.out.println("Parabéns! O Jogador 1 ganhou a batalha!!");
+        }else if(nocaute2 == 3){
+            System.out.println("Parabéns! O Jogador 2 ganhou a batalha!!");
         }
     }
     
@@ -134,5 +169,24 @@ public class Main {
             }
         }
         
+    }
+    
+    public static double reacaoElemental(Elemonstro atacante, Elemonstro defensor){
+        int i; double modificador = 1;
+        String[] elementos = new String[7];
+        elementos[0] = "Fogo"; elementos[1] = "Grama";
+        elementos[2] = "Vento"; elementos[3] = "Terra";
+        elementos[4] = "Elétrico"; elementos[5] = "Água"; elementos[6] = "Fogo";
+        for(i=0;i<6;i++){
+            if(atacante.getElementoGolpe().equals(elementos[i])){
+                break;
+            }
+        }
+        if(elementos[i-1].equals(defensor.getElementoElemonstro())){
+            modificador = 0.5;
+        }else if(elementos[i+1].equals(defensor.getElementoElemonstro())){
+            modificador = 2;
+        }
+        return modificador;
     }
 }
