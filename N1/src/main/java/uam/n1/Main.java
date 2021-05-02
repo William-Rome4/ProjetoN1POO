@@ -33,6 +33,32 @@ public class Main {
             System.out.println("O Jogador não pode escolher dois monstros iguais!");
             System.exit(0);
         }
+        int[] escolhaataque;
+        escolhaataque = new int [2];
+        escolhaataque[0]=0;
+        escolhaataque[1]=0;
+        Scanner entrada = new Scanner(System.in);
+        do {
+        	for( i=0;i<2;i++) {
+        		System.out.println("---------------------");
+	        	if(i==0) {
+	        		System.out.println("jogador "+ (i+1));
+	        		System.out.println("Você está com o "+jogador1[0].getNomeElemonstro());
+	        		System.out.println("ataque 1 : "+jogador1[0].getNomeGolpe1());
+	        		System.out.println("ataque 2 : "+jogador1[0].getNomeGolpe2());
+	        		System.out.println("Escolha o ataque (1 ou 2)");
+	        		escolhaataque[0] = entrada.nextInt();
+	            }else {
+	            	System.out.println("jogador "+ (i+1));
+	        		System.out.println("Você está com o "+jogador2[0].getNomeElemonstro());
+	        		System.out.println("ataque 1 : "+jogador2[0].getNomeGolpe1());
+	        		System.out.println("ataque 1 : "+jogador2[0].getNomeGolpe2());
+	        		System.out.println("Escolha o ataque (1 ou 2)");
+	        		escolhaataque[1] = entrada.nextInt();
+	            }
+        	}
+        	
+        }while((escolhaataque[0] < 1 || escolhaataque[0] >2) && (escolhaataque[1] < 1 || escolhaataque[1] >2));
     }
     
     public static void elemonstro(Elemonstro[] jogador, int escolha, int i, int j){
@@ -67,6 +93,8 @@ public class Main {
                 case 6 -> jogador[j-3] = lobrasa2;
             }
         }
+        
     }
+    
     
 }
