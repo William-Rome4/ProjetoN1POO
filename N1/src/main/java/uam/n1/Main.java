@@ -34,15 +34,16 @@ public class Main {
             System.exit(0);
         }
         int nocaute1=0, nocaute2=0;
+        int foraDeBatalha1=0, foraDeBatalha2=0;
         int[] escolhaAtaque;
         int elemonstroAtual1=0, elemonstroAtual2=0;
         int escolherAcao = 0; int[] troca = new int[2];
         escolhaAtaque = new int [2];
         escolhaAtaque[0]=0;
         escolhaAtaque[1]=0;
-        while(nocaute1<3 && nocaute2<3){
+        while(foraDeBatalha1<3 && foraDeBatalha2<3){
             for(i=0;i<2;i++) {
-                if(i==1 && troca[0]==1){
+                if(nocaute1==1 || nocaute2==1){
                     escolherAcao = 2;
                 }else if(jogador1[elemonstroAtual1].getVida() > 0
                         && jogador2[elemonstroAtual2].getVida() > 0){
@@ -50,10 +51,9 @@ public class Main {
                     System.out.println("Jogador "+(i+1)+" escolha sua ação: ");
                     System.out.println("\t1 -> Atacar\n\t2 -> Trocar");
                     escolherAcao = entrada.nextInt();
-                }else if((i==0 && jogador1[elemonstroAtual1].getVida()<=0)
-                        ||(i==0 && jogador2[elemonstroAtual2].getVida()<=0)){
-                    escolherAcao = 2;
                 }
+                if(i==1)
+                    nocaute1=0; nocaute2=0;
                 switch(escolherAcao){
                     case 1: do {
                                 System.out.println("---------------------");
@@ -221,11 +221,13 @@ public class Main {
                 System.out.println("---------------------");
                 nocaute2++;
             }
+            foraDeBatalha1=nocaute1;
+            foraDeBatalha2=nocaute2;
         }
         System.out.println("---------------------------------------");
-        if(nocaute1 == 3){
+        if(foraDeBatalha1 == 3){
             System.out.println("Parabéns! O Jogador 1 ganhou a batalha!!");
-        }else if(nocaute2 == 3){
+        }else if(foraDeBatalha2 == 3){
             System.out.println("Parabéns! O Jogador 2 ganhou a batalha!!");
         }
     }
