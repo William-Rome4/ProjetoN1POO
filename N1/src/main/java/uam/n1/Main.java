@@ -33,22 +33,24 @@ public class Main {
             System.out.println("O Jogador não pode escolher dois monstros iguais!");
             System.exit(0);
         }
-        int nocaute1 = 0, nocaute2=0;
+        int nocaute1=0, nocaute2=0;
         int[] escolhaAtaque;
         int elemonstroAtual1=0, elemonstroAtual2=0;
-        int escolherAcao = 0;
+        int escolherAcao = 0; int[] troca = new int[2];
         escolhaAtaque = new int [2];
         escolhaAtaque[0]=0;
         escolhaAtaque[1]=0;
-        while(nocaute1<3 || nocaute2<3){
+        while(nocaute1<3 && nocaute2<3){
             for(i=0;i<2;i++) {
-                if(jogador1[elemonstroAtual1].getVida() > 0
-                        || jogador2[elemonstroAtual2].getVida() > 0){
+                if(i==1 && troca[0]==1){
+                    escolherAcao = 2;
+                }else if(jogador1[elemonstroAtual1].getVida() > 0
+                        && jogador2[elemonstroAtual2].getVida() > 0){
                     System.out.println("---------------------");
                     System.out.println("Jogador "+(i+1)+" escolha sua ação: ");
                     System.out.println("\t1 -> Atacar\n\t2 -> Trocar");
                     escolherAcao = entrada.nextInt();
-                }else{
+                }else if(i==0 && jogador1[elemonstroAtual1].getVida()<=0){
                     escolherAcao = 2;
                 }
                 switch(escolherAcao){
@@ -57,17 +59,21 @@ public class Main {
                                 if(i==0) {
                                     System.out.println("Jogador "+ (i+1));
                                     System.out.println("Você está com o "+jogador1[elemonstroAtual1].getNomeElemonstro());
+                                    System.out.println("Vida atual "+jogador1[elemonstroAtual1].getVida());
                                     System.out.println("Ataque 1 : "+jogador1[elemonstroAtual1].getNomeGolpe1());
                                     System.out.println("Ataque 2 : "+jogador1[elemonstroAtual1].getNomeGolpe2());
                                     System.out.println("Escolha o ataque (1 ou 2)");
                                     escolhaAtaque[0] = entrada.nextInt();
+                                    troca[0] = 0;
                                 }else {
                                     System.out.println("Jogador "+ (i+1));
                                     System.out.println("Você está com o "+jogador2[elemonstroAtual2].getNomeElemonstro());
+                                    System.out.println("Vida atual "+jogador2[elemonstroAtual2].getVida());
                                     System.out.println("Ataque 1 : "+jogador2[elemonstroAtual2].getNomeGolpe1());
                                     System.out.println("Ataque 2 : "+jogador2[elemonstroAtual2].getNomeGolpe2());
                                     System.out.println("Escolha o ataque (1 ou 2)");
                                     escolhaAtaque[1] = entrada.nextInt();
+                                    troca[1] = 0;
                                 }
                             }while((escolhaAtaque[0] < 1 || escolhaAtaque[0] >2) && (escolhaAtaque[1] < 1 || escolhaAtaque[1] >2));
                             break;
@@ -82,6 +88,7 @@ public class Main {
                                         System.out.println("Esse elemonstro está nocauteado!");
                                         elemonstroAtual1 = 5;
                                     }
+                                    troca[0] = 1;
                                 }while(elemonstroAtual1==5);
                             }else{
                                 do{
@@ -93,42 +100,103 @@ public class Main {
                                         System.out.println("Esse elemonstro está nocauteado!");
                                         elemonstroAtual2 = 5;
                                     }
+                                    troca[1] = 1;
                                 }while(elemonstroAtual2==5);
                             }
                             break;
                 }
             }
-            if(jogador1[elemonstroAtual1].getVelocidade() > jogador2[elemonstroAtual2].getVelocidade()){
-                if(escolhaAtaque[0]==1){
-                    jogador2[elemonstroAtual2].setVida(jogador2[elemonstroAtual2].getVida() 
-                            - (int) ((((22 * jogador1[elemonstroAtual1].getPoder1()
-                            * jogador1[elemonstroAtual1].getForca() / jogador2[elemonstroAtual2].getDefesa())
-                            /50)+2)*reacaoElemental(jogador1[elemonstroAtual1],jogador2[elemonstroAtual2])));
-                }else if(escolhaAtaque[0]==2){
-                    jogador2[elemonstroAtual2].setVida(jogador2[elemonstroAtual2].getVida() 
-                            - (int) ((((22 * jogador1[elemonstroAtual1].getPoder2()
-                            * jogador1[elemonstroAtual1].getForca() / jogador2[elemonstroAtual2].getDefesa())
-                            /50)+2)*reacaoElemental(jogador1[elemonstroAtual1],jogador2[elemonstroAtual2])));
+            if(troca[0]==0 && troca[1]==0){
+                if(jogador1[elemonstroAtual1].getVelocidade() > jogador2[elemonstroAtual2].getVelocidade()){
+                    if(escolhaAtaque[0]==1){
+                        jogador2[elemonstroAtual2].setVida(jogador2[elemonstroAtual2].getVida() 
+                                - ((((22 * jogador1[elemonstroAtual1].getPoder1()
+                                * jogador1[elemonstroAtual1].getForca() / jogador2[elemonstroAtual2].getDefesa())
+                                /50)+2)*reacaoElemental(jogador1[elemonstroAtual1],jogador2[elemonstroAtual2])));
+                    }else if(escolhaAtaque[0]==2){
+                        jogador2[elemonstroAtual2].setVida(jogador2[elemonstroAtual2].getVida() 
+                                - ((((22 * jogador1[elemonstroAtual1].getPoder2()
+                                * jogador1[elemonstroAtual1].getForca() / jogador2[elemonstroAtual2].getDefesa())
+                                /50)+2)*reacaoElemental(jogador1[elemonstroAtual1],jogador2[elemonstroAtual2])));
+                    }
+                    if(jogador2[elemonstroAtual2].getVida() > 0){
+                        if(escolhaAtaque[1]==1){
+                            jogador1[elemonstroAtual1].setVida(jogador1[elemonstroAtual1].getVida() - 
+                                ((((22 * jogador2[elemonstroAtual2].getPoder1()
+                                * jogador2[elemonstroAtual2].getForca() / jogador1[elemonstroAtual1].getDefesa())
+                                /50)+2)*reacaoElemental(jogador2[elemonstroAtual2],jogador1[elemonstroAtual1])));
+                        }else if(escolhaAtaque[1]==2){
+                            jogador1[elemonstroAtual1].setVida(jogador1[elemonstroAtual1].getVida() - 
+                                ((((22 * jogador2[elemonstroAtual2].getPoder2()
+                                * jogador2[elemonstroAtual2].getForca() / jogador1[elemonstroAtual1].getDefesa())
+                                /50)+2)*reacaoElemental(jogador2[elemonstroAtual2],jogador1[elemonstroAtual1])));
+                        }
+                    }
+                }else if(jogador1[elemonstroAtual1].getVelocidade() < jogador2[elemonstroAtual2].getVelocidade()){
+                    if(escolhaAtaque[1]==1){
+                        jogador1[elemonstroAtual1].setVida(jogador1[elemonstroAtual1].getVida() - 
+                                ((((22 * jogador2[elemonstroAtual2].getPoder1()
+                                * jogador2[elemonstroAtual2].getForca() / jogador1[elemonstroAtual1].getDefesa())
+                                /50)+2)*reacaoElemental(jogador2[elemonstroAtual2],jogador1[elemonstroAtual1])));
+                    }else if(escolhaAtaque[1]==2){
+                        jogador1[elemonstroAtual1].setVida(jogador1[elemonstroAtual1].getVida() - 
+                                ((((22 * jogador2[elemonstroAtual2].getPoder2()
+                                * jogador2[elemonstroAtual2].getForca() / jogador1[elemonstroAtual1].getDefesa())
+                                /50)+2)*reacaoElemental(jogador2[elemonstroAtual2],jogador1[elemonstroAtual1])));
+                    }
+                    if(jogador1[elemonstroAtual1].getVida() > 0){
+                        if(escolhaAtaque[0]==1){
+                            jogador2[elemonstroAtual2].setVida(jogador2[elemonstroAtual2].getVida() 
+                                - ((((22 * jogador1[elemonstroAtual1].getPoder1()
+                                * jogador1[elemonstroAtual1].getForca() / jogador2[elemonstroAtual2].getDefesa())
+                                /50)+2)*reacaoElemental(jogador1[elemonstroAtual1],jogador2[elemonstroAtual2])));
+                        }else if(escolhaAtaque[0]==2){
+                            jogador2[elemonstroAtual2].setVida(jogador2[elemonstroAtual2].getVida() 
+                                - ((((22 * jogador1[elemonstroAtual1].getPoder2()
+                                * jogador1[elemonstroAtual1].getForca() / jogador2[elemonstroAtual2].getDefesa())
+                                /50)+2)*reacaoElemental(jogador1[elemonstroAtual1],jogador2[elemonstroAtual2])));
+                        }
+                    }
                 }
-                if(jogador2[elemonstroAtual2].getVida() <= 0)
-                    nocaute2++;
-            }else if(jogador1[elemonstroAtual1].getVelocidade() < jogador2[elemonstroAtual2].getVelocidade()){
+            }else if(troca[0]==1 && troca[1]==0){
                 if(escolhaAtaque[1]==1){
                     jogador1[elemonstroAtual1].setVida(jogador1[elemonstroAtual1].getVida() - 
-                            (int) ((((22 * jogador2[elemonstroAtual1].getPoder1()
-                            * jogador2[elemonstroAtual2].getForca() / jogador1[elemonstroAtual1].getDefesa())
-                            /50)+2)*reacaoElemental(jogador2[elemonstroAtual2],jogador1[elemonstroAtual1])));
+                    ((((22 * jogador2[elemonstroAtual2].getPoder1()
+                    * jogador2[elemonstroAtual2].getForca() / jogador1[elemonstroAtual1].getDefesa())
+                    /50)+2)*reacaoElemental(jogador2[elemonstroAtual2],jogador1[elemonstroAtual1])));
                 }else if(escolhaAtaque[1]==2){
                     jogador1[elemonstroAtual1].setVida(jogador1[elemonstroAtual1].getVida() - 
-                            (int) ((((22 * jogador2[elemonstroAtual1].getPoder2()
-                            * jogador2[elemonstroAtual2].getForca() / jogador1[elemonstroAtual1].getDefesa())
-                            /50)+2)*reacaoElemental(jogador2[elemonstroAtual2],jogador1[elemonstroAtual1])));
+                    ((((22 * jogador2[elemonstroAtual2].getPoder2()
+                    * jogador2[elemonstroAtual2].getForca() / jogador1[elemonstroAtual1].getDefesa())
+                    /50)+2)*reacaoElemental(jogador2[elemonstroAtual2],jogador1[elemonstroAtual1])));
                 }
-                if(jogador1[elemonstroAtual1].getVida() <= 0)
-                    nocaute1++;
+            }else if(troca[0]==0 && troca[1]==1){
+                if(escolhaAtaque[0]==1){
+                    jogador2[elemonstroAtual2].setVida(jogador2[elemonstroAtual2].getVida() 
+                    - ((((22 * jogador1[elemonstroAtual1].getPoder1()
+                    * jogador1[elemonstroAtual1].getForca() / jogador2[elemonstroAtual2].getDefesa())
+                    /50)+2)*reacaoElemental(jogador1[elemonstroAtual1],jogador2[elemonstroAtual2])));
+                }else if(escolhaAtaque[0]==2){
+                    jogador2[elemonstroAtual2].setVida(jogador2[elemonstroAtual2].getVida() 
+                    - ((((22 * jogador1[elemonstroAtual1].getPoder2()
+                    * jogador1[elemonstroAtual1].getForca() / jogador2[elemonstroAtual2].getDefesa())
+                    /50)+2)*reacaoElemental(jogador1[elemonstroAtual1],jogador2[elemonstroAtual2])));
+                }
+            }
+            if(jogador1[elemonstroAtual1].getVida() <= 0){
+                System.out.println("\n---------------------");
+                System.out.println(jogador1[elemonstroAtual1].getNomeElemonstro()+" foi nocauteado!");
+                System.out.println("---------------------");
+                nocaute1++;
+            }
+            if(jogador2[elemonstroAtual2].getVida() <= 0){
+                System.out.println("\n---------------------");
+                System.out.println(jogador2[elemonstroAtual2].getNomeElemonstro()+" foi nocauteado!");
+                System.out.println("---------------------");
+                nocaute2++;
             }
         }
-        System.out.println("---------------------");
+        System.out.println("---------------------------------------");
         if(nocaute1 == 3){
             System.out.println("Parabéns! O Jogador 1 ganhou a batalha!!");
         }else if(nocaute2 == 3){
@@ -145,12 +213,12 @@ public class Main {
             Elemonstro sementauro1 = new Elemonstro("Folha Cortante","Semente Explosiva",55,80,"Grama","Sementauro","Grama",175,140,120,120);
             Elemonstro lobrasa1  = new Elemonstro("Mordida Flamejante","Cuspir Fogo",65,90,"Fogo","Lobrasa","Fogo",185,160,145,105);
             switch(escolha){
-                case 1 -> jogador[j] = draterra1;
-                case 2 -> jogador[j] = ventaguia1;
-                case 3 -> jogador[j] = zilletrico1;
-                case 4 -> jogador[j] = aguarto1;
-                case 5 -> jogador[j] = sementauro1;
-                case 6 -> jogador[j] = lobrasa1;
+                case 1 : jogador[j] = draterra1; break;
+                case 2 : jogador[j] = ventaguia1; break;
+                case 3 : jogador[j] = zilletrico1; break;
+                case 4 : jogador[j] = aguarto1; break;
+                case 5 : jogador[j] = sementauro1; break;
+                case 6 : jogador[j] = lobrasa1; break;
             }
         }else{
             Elemonstro draterra2 = new Elemonstro("Terremoto","Garras Granito",70,55,"Terra","Draterra","Terra",140,150,160,80);
@@ -160,32 +228,43 @@ public class Main {
             Elemonstro sementauro2 = new Elemonstro("Folha Cortante","Semente Explosiva",55,80,"Grama","Sementauro","Grama",175,140,120,120);
             Elemonstro lobrasa2  = new Elemonstro("Mordida Flamejante","Cuspir Fogo",65,90,"Fogo","Lobrasa","Fogo",185,160,145,105);
             switch(escolha){
-                case 1 -> jogador[j-3] = draterra2;
-                case 2 -> jogador[j-3] = ventaguia2;
-                case 3 -> jogador[j-3] = zilletrico2;
-                case 4 -> jogador[j-3] = aguarto2;
-                case 5 -> jogador[j-3] = sementauro2;
-                case 6 -> jogador[j-3] = lobrasa2;
+                case 1 : jogador[j-3] = draterra2; break;
+                case 2 : jogador[j-3] = ventaguia2; break;
+                case 3 : jogador[j-3] = zilletrico2; break;
+                case 4 : jogador[j-3] = aguarto2; break;
+                case 5 : jogador[j-3] = sementauro2; break;
+                case 6 : jogador[j-3] = lobrasa2; break;
             }
         }
         
     }
     
     public static double reacaoElemental(Elemonstro atacante, Elemonstro defensor){
-        int i; double modificador = 1;
-        String[] elementos = new String[7];
-        elementos[0] = "Fogo"; elementos[1] = "Grama";
-        elementos[2] = "Vento"; elementos[3] = "Terra";
-        elementos[4] = "Elétrico"; elementos[5] = "Água"; elementos[6] = "Fogo";
+        int i, j = 0; double modificador = 1;
+        String[] elementos = new String[6];
+        elementos[0] = "Fogo"; elementos[1] = "Grama"; 
+        elementos[2] = "Vento";elementos[3] = "Terra"; 
+        elementos[4] = "Elétrico"; elementos[5] = "Água";
         for(i=0;i<6;i++){
             if(atacante.getElementoGolpe().equals(elementos[i])){
                 break;
             }
         }
-        if(elementos[i-1].equals(defensor.getElementoElemonstro())){
+        if(i-1 == -1){
+            j = 6;
+        }
+        System.out.println("-----------------------");
+        if(elementos[(i-1)+j].equals(defensor.getElementoElemonstro())){
             modificador = 0.5;
-        }else if(elementos[i+1].equals(defensor.getElementoElemonstro())){
+            System.out.println("O ataque de "+atacante.getNomeElemonstro()+" não pareceu surtir muito efeito.");
+        }
+        j = 0;
+        if(i+1 == 6){
+            j = 6;
+        }
+        if(elementos[(i+1)-j].equals(defensor.getElementoElemonstro())){
             modificador = 2;
+            System.out.println("O ataque de "+atacante.getNomeElemonstro()+" foi superefetivo!");
         }
         return modificador;
     }
