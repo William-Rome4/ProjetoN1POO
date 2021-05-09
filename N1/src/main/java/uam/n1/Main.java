@@ -50,7 +50,8 @@ public class Main {
                     System.out.println("Jogador "+(i+1)+" escolha sua ação: ");
                     System.out.println("\t1 -> Atacar\n\t2 -> Trocar");
                     escolherAcao = entrada.nextInt();
-                }else if(i==0 && jogador1[elemonstroAtual1].getVida()<=0){
+                }else if((i==0 && jogador1[elemonstroAtual1].getVida()<=0)
+                        ||(i==0 && jogador2[elemonstroAtual2].getVida()<=0)){
                     escolherAcao = 2;
                 }
                 switch(escolherAcao){
@@ -157,6 +158,31 @@ public class Main {
                                 /50)+2)*reacaoElemental(jogador1[elemonstroAtual1],jogador2[elemonstroAtual2])));
                         }
                     }
+                }else{
+                    if(escolhaAtaque[0]==1){
+                        jogador2[elemonstroAtual2].setVida(jogador2[elemonstroAtual2].getVida() 
+                                - ((((22 * jogador1[elemonstroAtual1].getPoder1()
+                                * jogador1[elemonstroAtual1].getForca() / jogador2[elemonstroAtual2].getDefesa())
+                                /50)+2)*reacaoElemental(jogador1[elemonstroAtual1],jogador2[elemonstroAtual2])));
+                    }else if(escolhaAtaque[0]==2){
+                        jogador2[elemonstroAtual2].setVida(jogador2[elemonstroAtual2].getVida() 
+                                - ((((22 * jogador1[elemonstroAtual1].getPoder2()
+                                * jogador1[elemonstroAtual1].getForca() / jogador2[elemonstroAtual2].getDefesa())
+                                /50)+2)*reacaoElemental(jogador1[elemonstroAtual1],jogador2[elemonstroAtual2])));
+                    }
+                    if(jogador2[elemonstroAtual2].getVida() > 0){
+                        if(escolhaAtaque[1]==1){
+                            jogador1[elemonstroAtual1].setVida(jogador1[elemonstroAtual1].getVida() - 
+                                ((((22 * jogador2[elemonstroAtual2].getPoder1()
+                                * jogador2[elemonstroAtual2].getForca() / jogador1[elemonstroAtual1].getDefesa())
+                                /50)+2)*reacaoElemental(jogador2[elemonstroAtual2],jogador1[elemonstroAtual1])));
+                        }else if(escolhaAtaque[1]==2){
+                            jogador1[elemonstroAtual1].setVida(jogador1[elemonstroAtual1].getVida() - 
+                                ((((22 * jogador2[elemonstroAtual2].getPoder2()
+                                * jogador2[elemonstroAtual2].getForca() / jogador1[elemonstroAtual1].getDefesa())
+                                /50)+2)*reacaoElemental(jogador2[elemonstroAtual2],jogador1[elemonstroAtual1])));
+                        }
+                    }
                 }
             }else if(troca[0]==1 && troca[1]==0){
                 if(escolhaAtaque[1]==1){
@@ -185,13 +211,13 @@ public class Main {
             }
             if(jogador1[elemonstroAtual1].getVida() <= 0){
                 System.out.println("\n---------------------");
-                System.out.println(jogador1[elemonstroAtual1].getNomeElemonstro()+" foi nocauteado!");
+                System.out.println("Jogador 1! Seu "+jogador1[elemonstroAtual1].getNomeElemonstro()+" foi nocauteado!");
                 System.out.println("---------------------");
                 nocaute1++;
             }
             if(jogador2[elemonstroAtual2].getVida() <= 0){
                 System.out.println("\n---------------------");
-                System.out.println(jogador2[elemonstroAtual2].getNomeElemonstro()+" foi nocauteado!");
+                System.out.println("Jogador 2! Seu "+jogador2[elemonstroAtual2].getNomeElemonstro()+" foi nocauteado!");
                 System.out.println("---------------------");
                 nocaute2++;
             }
@@ -208,7 +234,7 @@ public class Main {
         if(i == 0){
             Elemonstro draterra1 = new Elemonstro("Terremoto","Garras Granito",70,55,"Terra","Draterra","Terra",140,150,160,80);
             Elemonstro ventaguia1 = new Elemonstro("Vendaval","Bico Mortal",40,60,"Vento","Ventaguia","Vento",200,170,80,110);
-            Elemonstro zilletrico1 = new Elemonstro("Relâmpago do Olimpo","Sobregarga",100,65,"Elétrico","Zilletrico","Elétrico",160,180,75,100);
+            Elemonstro zilletrico1 = new Elemonstro("Relâmpago do Olimpo","Sobrecarga",100,65,"Elétrico","Zilletrico","Elétrico",160,180,75,100);
             Elemonstro aguarto1 = new Elemonstro("Caud’água","Tsunami",80,90,"Água","Águarto","Água",180,120,100,95);
             Elemonstro sementauro1 = new Elemonstro("Folha Cortante","Semente Explosiva",55,80,"Grama","Sementauro","Grama",175,140,120,120);
             Elemonstro lobrasa1  = new Elemonstro("Mordida Flamejante","Cuspir Fogo",65,90,"Fogo","Lobrasa","Fogo",185,160,145,105);
@@ -223,7 +249,7 @@ public class Main {
         }else{
             Elemonstro draterra2 = new Elemonstro("Terremoto","Garras Granito",70,55,"Terra","Draterra","Terra",140,150,160,80);
             Elemonstro ventaguia2 = new Elemonstro("Vendaval","Bico Mortal",40,60,"Vento","Ventaguia","Vento",200,170,80,110);
-            Elemonstro zilletrico2 = new Elemonstro("Relâmpago do Olimpo","Sobregarga",100,65,"Elétrico","Zilletrico","Elétrico",160,180,75,100);
+            Elemonstro zilletrico2 = new Elemonstro("Relâmpago do Olimpo","Sobrecarga",100,65,"Elétrico","Zilletrico","Elétrico",160,180,75,100);
             Elemonstro aguarto2 = new Elemonstro("Caud’água","Tsunami",80,90,"Água","Águarto","Água",180,120,100,95);
             Elemonstro sementauro2 = new Elemonstro("Folha Cortante","Semente Explosiva",55,80,"Grama","Sementauro","Grama",175,140,120,120);
             Elemonstro lobrasa2  = new Elemonstro("Mordida Flamejante","Cuspir Fogo",65,90,"Fogo","Lobrasa","Fogo",185,160,145,105);
