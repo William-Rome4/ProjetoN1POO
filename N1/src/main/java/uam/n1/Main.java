@@ -221,13 +221,13 @@ public class Main {
                 System.out.println("---------------------");
                 nocaute2++;
             }
-            foraDeBatalha1=nocaute1;
-            foraDeBatalha2=nocaute2;
+            foraDeBatalha1+=nocaute1;
+            foraDeBatalha2+=nocaute2;
         }
         System.out.println("---------------------------------------");
-        if(foraDeBatalha1 == 3){
+        if(foraDeBatalha2 == 3){
             System.out.println("Parabéns! O Jogador 1 ganhou a batalha!!");
-        }else if(foraDeBatalha2 == 3){
+        }else if(foraDeBatalha1 == 3){
             System.out.println("Parabéns! O Jogador 2 ganhou a batalha!!");
         }
     }
